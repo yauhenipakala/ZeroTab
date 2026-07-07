@@ -11,7 +11,8 @@ With this extension, new tabs display a blank page instead of the usual new tab 
 ## Options:
 
 - custom background color
+- autodetect system theme (light/dark)
 
 
 ---
-&copy; 2019 Yauheni Pakala | MIT
+&copy; 2026 Yauheni Pakala | MIT
