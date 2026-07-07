@@ -1,9 +1,26 @@
 <html>
 <head>
     <title>&#65279;</title>
-</head>
-<body id="root">
+    <link rel="preload" href="common.js" as="script">
+    <link rel="preload" href="index.js" as="script">
     <script src="common.js"></script>
-    <script src="index.js"></script>
+    <script blocking="render" src="index.js" data-apply-background="true"></script>
+    <style>
+        html {
+            background-color: var(--page-background-color, transparent);
+        }
+
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+        }
+
+        body {
+            background-color: inherit;
+        }
+    </style>
+</head>
+<body>
 </body>
 </html>

@@ -2,12 +2,13 @@ const backgroundColorLightOption = document.getElementById('background_color_lig
 const backgroundColorDarkOption = document.getElementById('background_color_dark');
 
 const save_options = () => {
-    chrome.storage.sync.set({
+    const options = {
         backgroundColorLight: backgroundColorLightOption.value,
         backgroundColorDark: backgroundColorDarkOption.value
-    }, () => {
+    };
 
-    });
+    cache_background_colors(options);
+    chrome.storage.sync.set(options);
 }
 
 const restore_action = options => {
