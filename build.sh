@@ -9,7 +9,7 @@ mkdir -p publish
 rm -fr publish/*
 
 # Build app
-gulp build
+npx gulp build
 
 # Copy files to result folder
 cp dist/* \

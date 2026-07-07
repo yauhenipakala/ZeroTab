@@ -1,13 +1,13 @@
 const gulp = require('gulp');
-const del = require('del');
 const uglify = require('gulp-uglify-es').default;
+const { deleteAsync } = require('del');
 const htmlmin = require('gulp-htmlmin');
 
 gulp.task('default', () => {
     // place code for your default task here
 });
 
-gulp.task('build-clean', () => del(['dist']));
+gulp.task('build-clean', () => deleteAsync(['dist']));
 
 gulp.task('build-js', () =>
     gulp.src([
