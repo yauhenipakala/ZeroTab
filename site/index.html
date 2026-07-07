@@ -12,11 +12,16 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            min-height: 100vh;
+        }
+
+        .hero {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: calc(100vh - 72px);
+            padding: 0 24px;
             text-align: center;
         }
 
@@ -49,19 +54,26 @@
         }
 
         footer {
-            margin-top: 2rem;
             font-size: 0.9rem;
             color: #666;
+            padding: 1.5rem 24px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>ZeroTab - Minimalist New Tab Experience</h1>
-    <p>ZeroTab transforms your new tab into a clean, distraction-free space, perfect for staying focused and inspired.</p>
-    <a href="https://chromewebstore.google.com/detail/zerotab-empty-new-tab-pag/anbfanbhcjohnkjjccckagjcmolhhdgd" class="install-button">Install Now for Free</a>
+    <main class="hero">
+        <h1>ZeroTab - Minimalist New Tab Experience</h1>
+        <p>ZeroTab transforms your new tab into a clean, distraction-free space, perfect for staying focused and inspired.</p>
+        <a href="https://chromewebstore.google.com/detail/zerotab-empty-new-tab-pag/anbfanbhcjohnkjjccckagjcmolhhdgd" class="install-button">Install Now for Free</a>
+    </main>
 
     <footer>
-        &copy; 2024 ZeroTab. All rights reserved.
+        &copy; 2026 <a href="https://ypakala.com/?utm_source=project_zerotab&utm_medium=link&utm_campaign=site_footer">Yauheni Pakala</a>. All rights reserved. <a href="https://github.com/yauhenipakala/ZeroTab" target="_blank">GitHub</a>
     </footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://cdn.jsdelivr.net/npm/yandex-metrica-watch/tag.js", "ym"); ym(86385690, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); </script> <noscript><div><img src="https://mc.yandex.ru/watch/86385690" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>

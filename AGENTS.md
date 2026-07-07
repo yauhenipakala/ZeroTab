@@ -4,7 +4,7 @@
 
 ZeroTab is a minimal Chrome extension that replaces the browser new tab page with an empty page. The only user-facing customization in the current product is a background color option stored in Chrome sync storage.
 
-This repository also contains a simple static marketing page in `docs/`, but the extension itself lives in `src/` and is built into `dist/` and `publish/`.
+This repository also contains a simple static marketing page in `site/`, but the extension itself lives in `src/` and is built into `dist/` and `publish/`.
 
 ## Product Specs
 
@@ -48,7 +48,7 @@ This repository also contains a simple static marketing page in `docs/`, but the
 - `src/icon_128.png`: extension icon
 - `gulpfile.js`: build pipeline for minified JS and HTML
 - `build.sh`: packaging script that assembles the distributable zip
-- `docs/index.html`: separate landing page, not part of the extension package
+- `site/index.html`: separate landing page, not part of the extension package
 - `README.md`: public project overview
 
 ## Build And Release Flow
@@ -83,7 +83,7 @@ This repository also contains a simple static marketing page in `docs/`, but the
 - Keep the extension dependency-light and framework-free unless there is a strong reason to change that
 - The source manifest must keep the `version_auto` placeholder or packaging will stop working
 - If you add new packaged assets, update `build.sh` if the current copy rules do not include them
-- `docs/` is independent from the extension build; changes there do not affect the packaged extension
+- `site/` is independent from the extension build; changes there do not affect the packaged extension
 - `dist/` and `publish/` are generated and ignored by git
 - The `npm test` script is a placeholder and currently exits with an error by design
 
