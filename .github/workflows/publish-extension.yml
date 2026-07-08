@@ -1,0 +1,101 @@
+name: Publish extension to Chrome Web Store
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_type:
+        description: "Publish mode"
+        required: true
+        default: default
+        type: choice
+        options:
+          - default
+          - staged
+      deploy_percentage:
+        description: "Optional rollout percentage for eligible items"
+        required: false
+        default: ""
+        type: string
+      block_on_warnings:
+        description: "Fail publish when the API reports warnings"
+        required: true
+        default: true
+        type: boolean
+      skip_review:
+        description: "Attempt to skip review for eligible changes"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+# Required repository secrets:
+# - CHROME_WEB_STORE_ITEM_NAME: publishers/<publisherId>/items/<itemId>
+# - CHROME_WEB_STORE_SERVICE_ACCOUNT_JSON: full Google Cloud service account JSON
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CHROME_WEB_STORE_BLOCK_ON_WARNINGS: ${{ inputs.block_on_warnings }}
+      CHROME_WEB_STORE_DEPLOY_PERCENTAGE: ${{ inputs.deploy_percentage }}
+      CHROME_WEB_STORE_ITEM_NAME: ${{ secrets.CHROME_WEB_STORE_ITEM_NAME }}
+      CHROME_WEB_STORE_PUBLISH_TYPE: ${{ inputs.publish_type }}
+      CHROME_WEB_STORE_SKIP_REVIEW: ${{ inputs.skip_review }}
+      CHROME_WEB_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.CHROME_WEB_STORE_SERVICE_ACCOUNT_JSON }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build extension package
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          version="$(sed -n 's/^VERSION="\([^"]*\)"$/\1/p' build.sh)"
+
+          if [[ -z "$version" ]]; then
+            echo "Could not determine VERSION from build.sh" >&2
+            exit 1
+          fi
+
+          mkdir -p publish
+          rm -rf publish/*
+
+          npx gulp build
+
+          cp dist/* src/*.png src/manifest.json publish/
+          sed -i "s/version_auto/$version/g" publish/manifest.json
+
+          archive="ZeroTab-$version.zip"
+
+          (
+            cd publish
+            zip -r -X "$archive" *
+          )
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "zip_path=publish/$archive" >> "$GITHUB_OUTPUT"
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome-web-store-package-${{ steps.package.outputs.version }}
+          path: ${{ steps.package.outputs.zip_path }}
+
+      - name: Publish to Chrome Web Store
+        env:
+          ZIP_PATH: ${{ steps.package.outputs.zip_path }}
+        run: node scripts/chrome-web-store-publish.mjs
